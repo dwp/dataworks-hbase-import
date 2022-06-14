@@ -1,8 +1,9 @@
 #!/bin/bash
 
 SNAPSHOT_NAME=$1
-SNAPSHOT_SOURCE_BUCKET=$2
-SNAPSHOT_SOURCE_PREFIX=$3
+
+SNAPSHOT_SOURCE_BUCKET=${snapshot_source_bucket}
+SNAPSHOT_SOURCE_PREFIX=${snapshot_source_prefix}
 
 HBASE_ROOT_BUCKET=${hbase_root_bucket}
 HBASE_ROOT_DIR=${hbase_root_dir}
