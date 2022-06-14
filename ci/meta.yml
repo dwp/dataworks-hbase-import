@@ -30,9 +30,9 @@ meta:
             - |
               python bootstrap_terraform.py
               cp terraform.tf ../terraform-bootstrap
-          dir: dataworks-repo-template-terraform
+          dir: dataworks-hbase-import
         inputs:
-          - name: dataworks-repo-template-terraform
+          - name: dataworks-hbase-import
         outputs:
           - name: terraform-bootstrap
       params:
@@ -51,9 +51,9 @@ meta:
               #ENABLE_BY_INITIAL_COMMIT terraform init
               #ENABLE_BY_INITIAL_COMMIT terraform plan -out terraform.plan
               #ENABLE_BY_INITIAL_COMMIT terraform apply -auto-approve terraform.plan
-          dir: dataworks-repo-template-terraform
+          dir: dataworks-hbase-import
         inputs:
-          - name: dataworks-repo-template-terraform
+          - name: dataworks-hbase-import
           - name: terraform-bootstrap
     terraform-plan:
       task: terraform-plan
@@ -69,10 +69,39 @@ meta:
               terraform init -backend=false; terraform validate #REMOVE_BY_INITIAL_COMMIT
               #ENABLE_BY_INITIAL_COMMIT terraform init
               #ENABLE_BY_INITIAL_COMMIT terraform plan $DETAILED_EXITCODE
-          dir: dataworks-repo-template-terraform
+          dir: dataworks-hbase-import
         inputs:
-          - name: dataworks-repo-template-terraform
+          - name: dataworks-hbase-import
           - name: terraform-bootstrap
       params:
         DETAILED_EXITCODE: -detailed-exitcode
 
+    e2e-tests:
+      task: e2e-tests
+      config:
+        platform: linux
+        image_resource:
+          type: docker-image
+          source:
+            repository: ((dataworks.docker_python_boto_behave_repository))
+            tag: ((dataworks.docker_python_boto_behave_version))
+        params:
+          AWS_DEFAULT_REGION: ((dataworks.aws_region))
+          NUMBER_OF_TOPICS_TO_USE: "1"
+          E2E_TEST_TIMEOUT: 300
+          E2E_FEATURE_TAG_FILTER: "@hbase-import-flow"
+          ASSUME_DURATION: 3600
+        run:
+          path: sh
+          dir: dataworks-behavioural-framework
+          args:
+            - -exc
+            - |
+              source /assume-role
+              cd src/runners
+              ./run-ci.sh \
+              "../../../meta"
+        inputs:
+          - name: dataworks-behavioural-framework
+          - name: dataworks-hbase-import
+          - name: meta
