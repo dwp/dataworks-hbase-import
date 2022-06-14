@@ -48,9 +48,9 @@ meta:
             - |
               cp ../terraform-bootstrap/terraform.tf .
               terraform workspace show
-              #ENABLE_BY_INITIAL_COMMIT terraform init
-              #ENABLE_BY_INITIAL_COMMIT terraform plan -out terraform.plan
-              #ENABLE_BY_INITIAL_COMMIT terraform apply -auto-approve terraform.plan
+              terraform init
+              terraform plan -out terraform.plan
+              terraform apply -auto-approve terraform.plan
           dir: dataworks-hbase-import
         inputs:
           - name: dataworks-hbase-import
@@ -66,9 +66,8 @@ meta:
             - |
               cp ../terraform-bootstrap/terraform.tf .
               terraform workspace show
-              terraform init -backend=false; terraform validate #REMOVE_BY_INITIAL_COMMIT
-              #ENABLE_BY_INITIAL_COMMIT terraform init
-              #ENABLE_BY_INITIAL_COMMIT terraform plan $DETAILED_EXITCODE
+              terraform init
+              terraform plan $DETAILED_EXITCODE
           dir: dataworks-hbase-import
         inputs:
           - name: dataworks-hbase-import

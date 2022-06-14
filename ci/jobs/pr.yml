@@ -17,6 +17,7 @@ jobs:
           dataworks-hbase-export: dataworks-hbase-import-pr
         params:
           TF_WORKSPACE: "qa"
+          TF_VAR_source_hbase_snapshot_workspace: 'qa'
           DETAILED_EXITCODE: ""
         on_failure:
           put: dataworks-hbase-import-pr

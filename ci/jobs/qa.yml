@@ -14,9 +14,11 @@ jobs:
       - .: (( inject meta.plan.terraform-apply ))
         params:
           TF_WORKSPACE: 'qa'
+          TF_VAR_source_hbase_snapshot_workspace: 'qa'
       - .: (( inject meta.plan.terraform-plan ))
         params:
           TF_WORKSPACE: 'qa'
+          TF_VAR_source_hbase_snapshot_workspace: 'qa'
       - .: (( inject meta.plan.e2e-tests))
         params:
           TF_WORKSPACE: 'qa'
