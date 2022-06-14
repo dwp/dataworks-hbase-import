@@ -24,4 +24,3 @@ jobs:
             TF_WORKSPACE: 'qa'
             AWS_ACC: ((aws_account.qa))
             AWS_ROLE_ARN: arn:aws:iam::((aws_account.qa)):role/ci
-            TF_DATAWORKS_HBASE_EXPORT: '4504d28c7ab0708d0193aeedff055b72'
