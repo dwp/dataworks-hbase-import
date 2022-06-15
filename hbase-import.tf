@@ -1,6 +1,8 @@
 data "template_file" "hbase_snapshot_importer_script" {
   template = file("files/hbase-snapshot-importer.sh.tpl")
   vars = {
+        snapshot_source_bucket = local.snapshot_source_bucket
+        snapshot_source_prefix = local.snapshot_source_prefix
         hbase_root_bucket = local.hbase_root_bucket
         hbase_root_dir = local.hbase_root_dir
   }

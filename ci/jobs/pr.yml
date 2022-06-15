@@ -11,10 +11,10 @@ jobs:
           status: pending
       - .: (( inject meta.plan.terraform-bootstrap ))
         input_mapping:
-          dataworks-hbase-export: dataworks-hbase-import-pr
+          dataworks-hbase-import: dataworks-hbase-import-pr
       - .: (( inject meta.plan.terraform-plan ))
         input_mapping:
-          dataworks-hbase-export: dataworks-hbase-import-pr
+          dataworks-hbase-import: dataworks-hbase-import-pr
         params:
           TF_WORKSPACE: "qa"
           TF_VAR_source_hbase_snapshot_workspace: 'qa'
