@@ -7,20 +7,20 @@ jobs:
         - get: dataworks-hbase-import
           trigger: true
           passed:
-            - development
+            - qa
         - get: dataworks-behavioural-framework
           trigger: false
         - .: (( inject meta.plan.terraform-bootstrap ))
         - .: (( inject meta.plan.terraform-apply ))
           params:
-            TF_WORKSPACE: 'qa'
-            TF_VAR_source_hbase_snapshot_workspace: 'default'
+            TF_WORKSPACE: 'integration'
+            TF_VAR_source_hbase_snapshot_workspace: 'qa'
         - .: (( inject meta.plan.terraform-plan ))
           params:
-            TF_WORKSPACE: 'qa'
-            TF_VAR_source_hbase_snapshot_workspace: 'default'
+            TF_WORKSPACE: 'integration'
+            TF_VAR_source_hbase_snapshot_workspace: 'qa'
         - .: (( inject meta.plan.e2e-tests))
           params:
-            TF_WORKSPACE: 'qa'
-            AWS_ACC: ((aws_account.qa))
-            AWS_ROLE_ARN: arn:aws:iam::((aws_account.qa)):role/ci
+            TF_WORKSPACE: 'integration'
+            AWS_ACC: ((aws_account.integration))
+            AWS_ROLE_ARN: arn:aws:iam::((aws_account.integration)):role/ci
