@@ -29,6 +29,15 @@ provider "aws" {
   }
 }
 
+provider "aws" {
+  alias  = "hbase_snapshot_source"
+  region = "{{terraform.provider_region}}"
+
+  assume_role {
+    role_arn = "arn:aws:iam::${local.account[local.source_hbase_snapshot_environment]}:role/${var.assume_role}"
+  }
+}
+
 data "terraform_remote_state" "common" {
   backend   = "s3"
   workspace = terraform.workspace
